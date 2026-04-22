@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Subtle radial glow: slightly warmer top-center to feel lit -->
+    <radialGradient id="tw-bg" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0a0a0b"/>
+    </radialGradient>
+
+    <!-- Cream ink with a hint of warmth at the base -->
+    <linearGradient id="tw-ink" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#f6f1e8"/>
+      <stop offset="100%" stop-color="#e3d9c5"/>
+    </linearGradient>
+
+    <!-- Emerald accent arc gradient — a whisper of the site's signature -->
+    <linearGradient id="tw-arc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3fa07d" stop-opacity="0"/>
+      <stop offset="55%" stop-color="#3fa07d" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#3fa07d" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark badge -->
+  <circle cx="32" cy="32" r="30" fill="url(#tw-bg)"/>
+
+  <!-- Hairline inner ring -->
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#f4efe6" stroke-opacity="0.16" stroke-width="0.7"/>
+
+  <!-- Emerald accent arc (disappears at very small sizes, adds character at larger ones) -->
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="url(#tw-arc)" stroke-width="1"
+          stroke-dasharray="20 160" transform="rotate(-50 32 32)"/>
+
+  <!-- Serif T — clean, confident, readable down to 16px -->
+  <g fill="url(#tw-ink)">
+    <!-- Horizontal bar with slab-style terminals (small pointed serifs on left & right ends) -->
+    <path d="
+      M 17 20
+      L 47 20
+      L 47 25.5
+      L 44.6 25.5
+      L 44.6 23.8
+      L 35 23.8
+      L 35 42.6
+      Q 35 43.6 35.7 43.8
+      L 39.4 44.6
+      L 39.4 46
+      L 24.6 46
+      L 24.6 44.6
+      L 28.3 43.8
+      Q 29 43.6 29 42.6
+      L 29 23.8
+      L 19.4 23.8
+      L 19.4 25.5
+      L 17 25.5
+      Z
+    "/>
+  </g>
+</svg>

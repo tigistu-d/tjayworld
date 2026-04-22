@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tjay World — A digital space for perspective, growth & creativity</title>
+<meta name="description" content="Tjay World is a digital space for perspective, growth, creativity, and everything I'm building. A curated world, launching soon." />
+<meta name="theme-color" content="#0a0a0a" />
+<meta property="og:title" content="Tjay World" />
+<meta property="og:description" content="A digital space for perspective, growth, creativity, and everything I'm building." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#0a0a0b" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --bg-soft: #101012;
+    --bg-elev: #141416;
+    --ink: #f4efe6;
+    --ink-dim: rgba(244, 239, 230, 0.62);
+    --ink-whisper: rgba(244, 239, 230, 0.38);
+    --line: rgba(244, 239, 230, 0.08);
+    --line-soft: rgba(244, 239, 230, 0.05);
+    --accent: #2f7a5f;
+    --accent-glow: #3fa07d;
+    --silver: #c9c4b8;
+    --cream: #efe7d6;
+    --radius: 18px;
+    --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+    --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.002em;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.7 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ambient::before, .ambient::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    animation: drift 22s var(--ease-soft) infinite alternate;
+  }
+  .ambient::before {
+    width: 55vw; height: 55vw;
+    background: radial-gradient(circle, rgba(47, 122, 95, 0.35), transparent 60%);
+    top: -15vw; left: -10vw;
+  }
+  .ambient::after {
+    width: 45vw; height: 45vw;
+    background: radial-gradient(circle, rgba(201, 196, 184, 0.14), transparent 60%);
+    bottom: -10vw; right: -10vw;
+    animation-delay: -11s;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(4vw, -3vw) scale(1.15); }
+  }
+
+  #particles {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ------------ NAV ------------ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.5s var(--ease);
+    backdrop-filter: blur(0px);
+  }
+  nav.scrolled {
+    padding: 14px 32px;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 11, 0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    border: 1px solid var(--ink-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink);
+    position: relative;
+  }
+  .logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: conic-gradient(from 0deg, transparent 0%, var(--accent) 20%, transparent 40%) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0.5;
+    animation: spin 8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .nav-meta {
+    font-size: 12px;
+    color: var(--ink-whisper);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-meta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* ------------ HERO ------------ */
+  header.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 32px 80px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 0.2s forwards;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--ink-whisper);
+  }
+
+  h1.hero-title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(54px, 9.5vw, 152px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 36px;
+    max-width: 14ch;
+  }
+  h1.hero-title .line {
+    display: block;
+    overflow: hidden;
+  }
+  h1.hero-title .line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise 1.4s var(--ease) forwards;
+  }
+  h1.hero-title .line:nth-child(1) > span { animation-delay: 0.35s; }
+  h1.hero-title .line:nth-child(2) > span { animation-delay: 0.5s; }
+  h1.hero-title em {
+    font-style: italic;
+    font-family: "Instrument Serif", "Fraunces", serif;
+    font-weight: 300;
+    color: var(--cream);
+    position: relative;
+  }
+  h1.hero-title em::after {
+    content: "";
+    position: absolute;
+    left: 4%; right: 4%; bottom: -0.08em;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow) 50%, transparent);
+    opacity: 0.6;
+  }
+
+  .subhead {
+    max-width: 560px;
+    font-size: clamp(16px, 1.3vw, 19px);
+    color: var(--ink-dim);
+    line-height: 1.55;
+    margin: 0 0 48px;
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 0.9s forwards;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 1.1s forwards;
+  }
+
+  .btn {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 15px 30px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all 0.5s var(--ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn svg { width: 14px; height: 14px; transition: transform 0.5s var(--ease); }
+  .btn:hover svg { transform: translateX(4px); }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--cream), var(--ink));
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -20px rgba(244, 239, 230, 0.3); }
+
+  .btn-ghost {
+    border-color: rgba(244, 239, 230, 0.18);
+    color: var(--ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--ink);
+    background: rgba(244, 239, 230, 0.03);
+  }
+
+  @keyframes rise {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 1.6s forwards;
+  }
+  .scroll-hint .bar {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--ink-whisper), transparent);
+    animation: scrollBar 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollBar {
+    0%, 100% { transform: scaleY(1); transform-origin: top; }
+    50% { transform: scaleY(0.3); transform-origin: top; }
+  }
+
+  /* ------------ SECTIONS ------------ */
+  section {
+    position: relative;
+    padding: 140px 0;
+    z-index: 2;
+  }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 72px;
+    flex-wrap: wrap;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  .section-title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 18px 0 0;
+    max-width: 18ch;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--cream);
+  }
+  .section-desc {
+    max-width: 420px;
+    color: var(--ink-dim);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ------------ COUNTDOWN ------------ */
+  .countdown-section {
+    padding: 100px 0 120px;
+    text-align: center;
+  }
+  .countdown-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    margin-bottom: 32px;
+  }
+  .countdown-title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 26px);
+    color: var(--ink-dim);
+    margin-bottom: 56px;
+    letter-spacing: 0.01em;
+  }
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(12px, 2vw, 28px);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .count-unit {
+    position: relative;
+    padding: clamp(24px, 3vw, 40px) 16px clamp(20px, 2.5vw, 32px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(244, 239, 230, 0.02), transparent);
+    overflow: hidden;
+    transition: transform 0.6s var(--ease), border-color 0.6s var(--ease);
+  }
+  .count-unit::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+    opacity: 0.4;
+  }
+  .count-unit:hover {
+    transform: translateY(-3px);
+    border-color: rgba(244, 239, 230, 0.15);
+  }
+  .count-num {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .count-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+  }
+
+  /* ------------ FOUNDER NOTE ------------ */
+  .note-section {
+    padding: 120px 0;
+  }
+  .note-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    margin-bottom: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .note-label::before, .note-label::after {
+    content: "";
+    width: 24px; height: 1px;
+    background: var(--ink-whisper);
+  }
+  .note-body {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 48px;
+  }
+  .note-body em {
+    font-style: italic;
+    color: var(--cream);
+  }
+  .note-body .q {
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    color: var(--accent-glow);
+    opacity: 0.8;
+  }
+  .note-sign {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .note-sign .sig {
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .note-sign .who {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+  }
+
+  /* ------------ POSTS (editorial list) ------------ */
+  .posts {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .post {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 48px;
+    align-items: center;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.5s var(--ease);
+    position: relative;
+  }
+  .post:last-child { border-bottom: none; }
+  .post::before {
+    content: "";
+    position: absolute;
+    left: -24px; right: -24px;
+    top: 0; bottom: 0;
+    background: rgba(244, 239, 230, 0.02);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+  .post:hover::before { opacity: 1; }
+  .post:hover { padding-left: 12px; padding-right: 12px; }
+
+  .post-date {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--ink-whisper);
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+  .post-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .post-cat {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .post-cat::before {
+    content: "";
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    opacity: 0.7;
+  }
+  .post-title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .post-title em { font-style: italic; color: var(--cream); }
+
+  .post-meta-r {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--ink-whisper);
+  }
+  .post-meta-r .arrow {
+    display: inline-block;
+    font-size: 16px;
+    color: var(--ink-dim);
+    transition: transform 0.5s var(--ease), color 0.5s;
+  }
+  .post-meta-r .read {
+    white-space: nowrap;
+  }
+  .post:hover .post-meta-r .arrow {
+    transform: translateX(6px);
+    color: var(--ink);
+  }
+
+  /* ------------ FEATURED PROJECTS ------------ */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .proj {
+    position: relative;
+    padding: 48px 36px 36px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(244, 239, 230, 0.015), transparent);
+    transition: all 0.6s var(--ease);
+  }
+  .proj::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244, 239, 230, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+  .proj:hover {
+    transform: translateY(-4px);
+    border-color: rgba(244, 239, 230, 0.15);
+    background: linear-gradient(180deg, rgba(244, 239, 230, 0.035), transparent);
+  }
+  .proj:hover::before { opacity: 1; }
+
+  .proj-glyph {
+    position: absolute;
+    top: 36px; right: 32px;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--ink-whisper);
+    letter-spacing: 0.04em;
+  }
+  .proj-mark {
+    width: 44px; height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .proj-mark::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: conic-gradient(from 0deg, transparent 0%, var(--accent-glow) 25%, transparent 50%) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0.25;
+    transition: opacity 0.6s, transform 0.8s var(--ease);
+  }
+  .proj:hover .proj-mark::after {
+    opacity: 0.7;
+    transform: rotate(120deg);
+  }
+  .proj-mark span {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--ink-dim);
+  }
+
+  .proj-title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .proj-title em {
+    font-style: italic;
+    color: var(--cream);
+  }
+  .proj-sub {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 22ch;
+  }
+  .proj-status {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+  }
+  .proj-status .soon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .proj-status .soon::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  /* ------------ SUBSCRIBE ------------ */
+  .subscribe {
+    position: relative;
+    padding: 140px 32px 120px;
+    text-align: center;
+    z-index: 2;
+  }
+  .subscribe-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 72px clamp(32px, 5vw, 72px);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(244, 239, 230, 0.025), rgba(244, 239, 230, 0.005));
+    position: relative;
+    overflow: hidden;
+  }
+  .subscribe-inner::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: 50%;
+    transform: translateX(-50%);
+    width: 80%; height: 100%;
+    background: radial-gradient(ellipse, rgba(47, 122, 95, 0.2), transparent 60%);
+    pointer-events: none;
+  }
+  .subscribe-inner > * { position: relative; }
+  .subscribe h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(32px, 4.5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  .subscribe h2 em { font-style: italic; color: var(--cream); }
+  .subscribe .sub {
+    color: var(--ink-dim);
+    font-size: 16px;
+    margin: 0 0 40px;
+  }
+  .form {
+    display: flex;
+    gap: 10px;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    background: rgba(10, 10, 11, 0.5);
+    transition: border-color 0.5s;
+  }
+  .form:focus-within { border-color: rgba(244, 239, 230, 0.25); }
+  .form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 18px;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+  .form input::placeholder { color: var(--ink-whisper); }
+  .form .btn-primary { padding: 12px 24px; font-size: 13px; }
+
+  .form-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--ink-whisper);
+    letter-spacing: 0.03em;
+  }
+  .form-success {
+    display: none;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--accent-glow);
+    font-style: italic;
+    font-family: "Instrument Serif", serif;
+  }
+  .form-success.show { display: block; animation: rise 0.8s var(--ease) forwards; }
+
+  .form-error {
+    display: none;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #d8a07a;
+    font-style: italic;
+    font-family: "Instrument Serif", serif;
+  }
+  .form-error.show { display: block; animation: rise 0.8s var(--ease) forwards; }
+
+  .form.loading { opacity: 0.6; pointer-events: none; }
+  .form .btn-primary[aria-busy="true"] span::after {
+    content: " ·";
+    animation: dots 1.4s steps(4, end) infinite;
+  }
+  @keyframes dots {
+    0%   { content: " ·"; }
+    25%  { content: " · ·"; }
+    50%  { content: " · · ·"; }
+    75%  { content: " · ·"; }
+    100% { content: " ·"; }
+  }
+
+  /* ------------ FOOTER ------------ */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 80px 32px 48px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .foot-brand {
+    max-width: 320px;
+  }
+  .foot-brand .logo { margin-bottom: 18px; }
+  .foot-brand p {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .foot-links {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .foot-col h4 {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-whisper);
+    margin: 0 0 18px;
+    font-weight: 500;
+  }
+  .foot-col a {
+    display: block;
+    color: var(--ink-dim);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 4px 0;
+    transition: color 0.3s, transform 0.3s;
+  }
+  .foot-col a:hover {
+    color: var(--ink);
+    transform: translateX(4px);
+  }
+  .foot-base {
+    max-width: 1240px;
+    margin: 80px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink-whisper);
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  /* ------------ REVEAL ------------ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ------------ RESPONSIVE ------------ */
+  @media (max-width: 880px) {
+    .wrap { padding: 0 22px; }
+    nav { padding: 18px 22px; }
+    nav.scrolled { padding: 12px 22px; }
+    .nav-meta { display: none; }
+    section { padding: 90px 0; }
+    .section-head { margin-bottom: 48px; }
+    .note-section { padding: 90px 0; }
+    .note-body { font-size: 20px; }
+
+    .post {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 28px 0;
+    }
+    .post:hover { padding-left: 0; padding-right: 0; }
+    .post::before { display: none; }
+    .post-date { order: -1; font-size: 11px; }
+    .post-meta-r { justify-content: space-between; }
+
+    .projects { grid-template-columns: 1fr; }
+    .proj { min-height: 260px; padding: 40px 28px 28px; }
+    .proj-glyph { top: 28px; right: 24px; }
+
+    .countdown { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
+    .subscribe { padding: 90px 22px; }
+    .subscribe-inner { padding: 56px 28px; }
+    .form { flex-direction: column; border-radius: 20px; padding: 8px; }
+    .form input { text-align: center; }
+    .form .btn-primary { width: 100%; justify-content: center; border-radius: 14px; }
+    .foot-grid { flex-direction: column; gap: 48px; }
+    .foot-base { flex-direction: column; align-items: flex-start; text-align: left; }
+    header.hero { padding: 120px 22px 60px; }
+    .scroll-hint { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="ambient"></div>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<nav id="nav">
+  <a href="#" class="logo">
+    <span class="logo-mark">T</span>
+    <span>Tjay World</span>
+  </a>
+  <div class="nav-meta">
+    <span class="dot"></span>
+    <span>Launching Soon</span>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="eyebrow">Est. 2026 — A Personal Universe</div>
+
+  <h1 class="hero-title">
+    <span class="line"><span>Announcing</span></span>
+    <span class="line"><span><em>Tjay</em> World</span></span>
+  </h1>
+
+  <p class="subhead">
+    A digital space for perspective, growth, creativity, and everything I'm building.
+  </p>
+
+  <div class="cta-row">
+    <a href="#perspectives" class="btn btn-primary">
+      <span>Enter Tjay World</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 8h12M9 3l5 5-5 5" />
+      </svg>
+    </a>
+    <a href="#subscribe" class="btn btn-ghost">
+      <span>Get Notified</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 2v12M3 9l5 5 5-5" />
+      </svg>
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <span class="bar"></span>
+  </div>
+</header>
+
+<!-- ========== COUNTDOWN ========== -->
+<section class="countdown-section wrap reveal">
+  <div class="countdown-eyebrow">The Arrival</div>
+  <div class="countdown-title">The full experience opens in</div>
+
+  <div class="countdown" id="countdown" role="timer" aria-live="polite">
+    <div class="count-unit">
+      <span class="count-num" id="days">00</span>
+      <span class="count-label">Days</span>
+    </div>
+    <div class="count-unit">
+      <span class="count-num" id="hours">00</span>
+      <span class="count-label">Hours</span>
+    </div>
+    <div class="count-unit">
+      <span class="count-num" id="minutes">00</span>
+      <span class="count-label">Minutes</span>
+    </div>
+    <div class="count-unit">
+      <span class="count-num" id="seconds">00</span>
+      <span class="count-label">Seconds</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOUNDER NOTE ========== -->
+<section class="note-section wrap reveal">
+  <div class="note-inner">
+    <div class="note-label">A Note</div>
+    <p class="note-body">
+      <span class="q">"</span>Let men see, let them know, a <em>real man</em>, who lives as he was <em>meant to live</em>.<span class="q">"</span>
+    </p>
+    <div class="note-sign">
+      <span class="sig">— Tjay</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PERSPECTIVES ========== -->
+<section id="perspectives" class="wrap reveal">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Perspectives</div>
+      <h2 class="section-title">Inside <em>Tjay</em> World</h2>
+    </div>
+    <p class="section-desc">
+      Thoughts, lessons, moments, and observations from the journey — written slowly, meant to last.
+    </p>
+  </div>
+
+  <div class="posts">
+    <article class="post">
+      <span class="post-date">March 14, 2026</span>
+      <div class="post-main">
+        <span class="post-cat">Essay</span>
+        <h3 class="post-title">22 Things I Learned at <em>22</em>.</h3>
+      </div>
+      <div class="post-meta-r">
+        <span class="read">08 min read</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <span class="post-date">February 28, 2026</span>
+      <div class="post-main">
+        <span class="post-cat">Reflection</span>
+        <h3 class="post-title">What Stephen Curry Taught Me About <em>Excellence</em></h3>
+      </div>
+      <div class="post-meta-r">
+        <span class="read">06 min read</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <span class="post-date">February 09, 2026</span>
+      <div class="post-main">
+        <span class="post-cat">Faith</span>
+        <h3 class="post-title">What the Bible Is <em>Teaching</em> Me in This Season</h3>
+      </div>
+      <div class="post-meta-r">
+        <span class="read">07 min read</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <span class="post-date">January 22, 2026</span>
+      <div class="post-main">
+        <span class="post-cat">Note</span>
+        <h3 class="post-title">Why Confidence Grows <em>Quietly</em></h3>
+      </div>
+      <div class="post-meta-r">
+        <span class="read">04 min read</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <span class="post-date">January 06, 2026</span>
+      <div class="post-main">
+        <span class="post-cat">Journal</span>
+        <h3 class="post-title">What Travel Taught Me About <em>Perspective</em></h3>
+      </div>
+      <div class="post-meta-r">
+        <span class="read">09 min read</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ========== FEATURED PROJECTS ========== -->
+<section class="wrap reveal">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Featured Projects · Coming Soon</div>
+      <h2 class="section-title">Quiet work,<br><em>unfolding</em> soon</h2>
+    </div>
+    <p class="section-desc">
+      Carefully shaped ideas and experiments — revealed when they're ready, not before.
+    </p>
+  </div>
+
+  <div class="projects">
+    <article class="proj">
+      <span class="proj-glyph">i.</span>
+      <div>
+        <div class="proj-mark"><span>◷</span></div>
+        <h3 class="proj-title">Coming <em>Soon</em></h3>
+        <p class="proj-sub">A piece of the world, being shaped in private.</p>
+      </div>
+      <div class="proj-status">
+        <span>Chapter One</span>
+        <span class="soon">Soon</span>
+      </div>
+    </article>
+
+    <article class="proj">
+      <span class="proj-glyph">ii.</span>
+      <div>
+        <div class="proj-mark"><span>◐</span></div>
+        <h3 class="proj-title">In <em>Progress</em></h3>
+        <p class="proj-sub">Still forming. Still becoming what it needs to be.</p>
+      </div>
+      <div class="proj-status">
+        <span>Chapter Two</span>
+        <span class="soon">In Progress</span>
+      </div>
+    </article>
+
+    <article class="proj">
+      <span class="proj-glyph">iii.</span>
+      <div>
+        <div class="proj-mark"><span>✦</span></div>
+        <h3 class="proj-title"><em>Unfolding</em></h3>
+        <p class="proj-sub">A slower idea — one that takes the time it deserves.</p>
+      </div>
+      <div class="proj-status">
+        <span>Chapter Three</span>
+        <span class="soon">Unfolding</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ========== SUBSCRIBE ========== -->
+<section id="subscribe" class="subscribe reveal">
+  <div class="subscribe-inner">
+    <h2>Be First Inside <em>Tjay</em> World</h2>
+    <p class="sub">Be the first to explore when the full experience launches.</p>
+
+    <form class="form" id="subscribeForm" action="https://formspree.io/f/mbdqpaaa" method="POST" novalidate>
+      <input type="email" id="emailInput" name="email" placeholder="Enter your email" required autocomplete="email" />
+      <button type="submit" class="btn btn-primary">
+        <span>Join the List</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 8h12M9 3l5 5-5 5" />
+        </svg>
+      </button>
+    </form>
+
+    <p class="form-note">No spam. No noise. Only when it's ready.</p>
+    <p class="form-success" id="formSuccess">You're on the list. See you soon.</p>
+    <p class="form-error" id="formError">Something went wrong. Please try again in a moment.</p>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <span class="logo-mark">T</span>
+        <span>Tjay World</span>
+      </a>
+      <p>A curated world of perspective, growth, and quiet ambition — becoming, in real time.</p>
+    </div>
+
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">LinkedIn</a>
+      </div>
+      <div class="foot-col">
+        <h4>World</h4>
+        <a href="#perspectives">Perspectives</a>
+        <a href="#">Projects</a>
+      </div>
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="#">Contact</a>
+        <a href="#subscribe">Get Notified</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot-base">
+    <span>Tjay World © 2026 — Built slowly, on purpose.</span>
+    <span>Made with intention.</span>
+  </div>
+</footer>
+
+<script>
+  /* ===== Countdown — 75 days from first visit ===== */
+  (function () {
+    const KEY = "tjayworld_launch_ts";
+    let target = parseInt(localStorage.getItem(KEY), 10);
+    if (!target || isNaN(target)) {
+      target = Date.now() + 75 * 24 * 60 * 60 * 1000;
+      try { localStorage.setItem(KEY, target); } catch(e) {}
+    }
+    const dEl = document.getElementById("days");
+    const hEl = document.getElementById("hours");
+    const mEl = document.getElementById("minutes");
+    const sEl = document.getElementById("seconds");
+    const pad = (n) => String(Math.max(0, n)).padStart(2, "0");
+
+    function tick() {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = "00";
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      dEl.textContent = pad(d);
+      hEl.textContent = pad(h);
+      mEl.textContent = pad(m);
+      sEl.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ===== Nav scroll state ===== */
+  const nav = document.getElementById("nav");
+  window.addEventListener("scroll", () => {
+    nav.classList.toggle("scrolled", window.scrollY > 40);
+  }, { passive: true });
+
+  /* ===== Reveal on scroll ===== */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  /* ===== Subscribe form — Formspree ===== */
+  const form = document.getElementById("subscribeForm");
+  const emailInput = document.getElementById("emailInput");
+  const success = document.getElementById("formSuccess");
+  const errorEl = document.getElementById("formError");
+  const submitBtn = form.querySelector("button[type='submit']");
+  const submitLabel = submitBtn.querySelector("span");
+  const originalLabel = submitLabel.textContent;
+
+  const flashBorder = (color) => {
+    form.style.borderColor = color;
+    setTimeout(() => { form.style.borderColor = ""; }, 1400);
+  };
+
+  const resetMessages = () => {
+    success.classList.remove("show");
+    errorEl.classList.remove("show");
+  };
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    resetMessages();
+
+    const val = emailInput.value.trim();
+    if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      emailInput.focus();
+      flashBorder("rgba(200, 120, 120, 0.5)");
+      return;
+    }
+
+    // Loading state
+    form.classList.add("loading");
+    submitBtn.setAttribute("aria-busy", "true");
+    submitLabel.textContent = "Sending";
+
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: new FormData(form),
+      });
+
+      if (res.ok) {
+        emailInput.value = "";
+        emailInput.placeholder = "Thank you ·  " + val.split("@")[0];
+        success.classList.add("show");
+        submitLabel.textContent = "Joined";
+        setTimeout(() => { submitLabel.textContent = originalLabel; }, 2600);
+      } else {
+        let msg = "Something went wrong. Please try again in a moment.";
+        try {
+          const data = await res.json();
+          if (data && Array.isArray(data.errors) && data.errors.length) {
+            msg = data.errors.map((x) => x.message).join(" · ");
+          }
+        } catch (_) {}
+        errorEl.textContent = msg;
+        errorEl.classList.add("show");
+        flashBorder("rgba(200, 120, 120, 0.5)");
+        submitLabel.textContent = originalLabel;
+      }
+    } catch (err) {
+      errorEl.textContent = "Couldn't reach the server. Please check your connection and try again.";
+      errorEl.classList.add("show");
+      flashBorder("rgba(200, 120, 120, 0.5)");
+      submitLabel.textContent = originalLabel;
+    } finally {
+      form.classList.remove("loading");
+      submitBtn.removeAttribute("aria-busy");
+    }
+  });
+
+  // Clear error state as soon as user starts typing again
+  emailInput.addEventListener("input", () => {
+    if (errorEl.classList.contains("show")) errorEl.classList.remove("show");
+  });
+
+  /* ===== Particles ===== */
+  (function () {
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, dpr, particles = [];
+    const COUNT = 42;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = window.innerWidth * dpr;
+      h = canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+    }
+    function seed() {
+      particles = [];
+      for (let i = 0; i < COUNT; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: (Math.random() * 1.2 + 0.3) * dpr,
+          vx: (Math.random() - 0.5) * 0.12 * dpr,
+          vy: (Math.random() - 0.5) * 0.12 * dpr,
+          a: Math.random() * 0.5 + 0.15,
+          ph: Math.random() * Math.PI * 2,
+          sp: Math.random() * 0.008 + 0.003,
+          hue: Math.random() > 0.8 ? "emerald" : "cream"
+        });
+      }
+    }
+    function tick() {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.ph += p.sp;
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+        const flicker = 0.55 + Math.sin(p.ph) * 0.45;
+        const alpha = p.a * flicker;
+        const color = p.hue === "emerald"
+          ? `rgba(63, 160, 125, ${alpha * 0.85})`
+          : `rgba(244, 239, 230, ${alpha})`;
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+    resize(); seed(); tick();
+    window.addEventListener("resize", () => { resize(); seed(); });
+  })();
+</script>
+
+</body>
+</html>
